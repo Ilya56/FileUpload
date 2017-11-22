@@ -1,0 +1,464 @@
+body {
+  background-color: #efeff3;
+}
+
+h1 {
+  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+h1:after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -75px;
+  width: 150px;
+  height: 2px;
+  background-color: #333;
+  content: '';
+}
+
+#file-manager:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+
+/* Tooltip fix */
+#file-manager .tooltip {
+  white-space: nowrap;
+}
+
+#file-manager > .image-container {
+  display: inline-block;
+  margin: 0 -1.8px;
+  padding: 8px;
+  vertical-align: top;
+}
+
+#file-manager > .image-container.image-placeholder {
+  padding: 8px;
+}
+
+#file-manager[data-image-columns="1"] > .image-container { width: 100%; }
+#file-manager[data-image-columns="2"] > .image-container { width: 50%; }
+#file-manager[data-image-columns="3"] > .image-container { width: 33.3333333%; }
+#file-manager[data-image-columns="4"] > .image-container { width: 25%; }
+#file-manager[data-image-columns="5"] > .image-container { width: 20%; }
+#file-manager[data-image-columns="6"] > .image-container { width: 16.6666665%; }
+#file-manager[data-image-columns="7"] > .image-container { width: 14.2857143%; }
+#file-manager[data-image-columns="8"] > .image-container { width: 12.5%; }
+#file-manager[data-image-columns="9"] > .image-container { width: 11.1111111%; }
+#file-manager[data-image-columns="10"] > .image-container { width: 10%; }
+#file-manager[data-image-columns="11"] > .image-container { width: 9.09090909%; }
+#file-manager[data-image-columns="12"] > .image-container { width: 8.33333333%; }
+#file-manager[data-image-columns="13"] > .image-container { width: 7.69230769%; }
+#file-manager[data-image-columns="14"] > .image-container { width: 7.14285714%; }
+#file-manager[data-image-columns="15"] > .image-container { width: 6.66666666%; }
+
+#file-manager > .image-placeholder > .inner-placeholder {
+  border: dashed 1px #333;
+}
+
+#file-manager > .image-container > .inner-image-container:before, #file-manager > .image-placeholder > .inner-placeholder:before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+
+}
+
+#file-manager > .image-container > .inner-image-container {
+  position: relative;
+  background-color: #fff;
+  -webkit-box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
+  z-index: 1;
+  max-width: 800px;
+}
+
+#file-manager > .image-container > .inner-image-container > .on-image-controls {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  left: 1px;
+  display: block;
+  padding: 5px;
+  text-align: center;
+  background-color: rgba(255,255,255,.8);
+  border-bottom: solid 1px #ccc;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#file-manager > .image-container > .inner-image-container:hover > .on-image-controls {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -ms-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  transition: all .3s ease;
+}
+
+#file-manager > .image-container > .inner-image-container > .on-image-controls > .delete-confirm {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 100%;
+  color: #fff;
+  line-height: 31px;
+  background-color: #c0392b;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -ms-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  transition: all .3s ease;
+}
+#file-manager > .image-container > .inner-image-container > .on-image-controls > .delete-confirm.active {
+  width: 100%;
+}
+
+#file-manager > .image-container > .inner-image-container > .on-image-controls > .fa {
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+#file-manager > .image-container > .inner-image-container > .on-image-controls > .fa-arrows {
+  cursor: move;
+}
+
+#file-manager > .image-container > .inner-image-container > .on-image-controls > .fa-check {
+  color: #2ecc71;
+}
+
+#file-manager > .image-container > .inner-image-container > .on-image-controls > .fa-info-circle {
+  color: #3498db;
+}
+
+#file-manager > .image-container > .inner-image-container > .on-image-controls > .fa-times {
+  color: #c0392b;
+}
+
+#file-manager > .image-container.picked-as-primary > .inner-image-container > .on-image-controls > .fa-check {
+  display: none;
+}
+
+#file-manager > .image-container > .inner-image-container > .center-container {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  left: 1px;
+  overflow: hidden;
+}
+
+#file-manager > .image-container.picked-as-primary > .inner-image-container > .center-container:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 5px;
+  content: 'Primary image';
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  background-color: #44c4e7;
+  z-index: 3;
+}
+
+#file-manager > .image-container > .inner-image-container > .center-container > img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -o-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 2;
+}
+
+#file-manager > .image-container.landscape > .inner-image-container > .center-container > img {
+  max-height: 100%;
+}
+
+#file-manager > .image-container.portrait > .inner-image-container> .center-container > img {
+  max-width: 100%;
+}
+
+#file-manager > .image-container.square > .inner-image-container> .center-container > img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.dropzone {
+  display: block;
+  margin: 20px 8px 20px 6.2px;
+  color: #aaa;
+  line-height: 100px;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 18px;
+  border: dashed 3px #aaa;
+}
+
+#image-preview-modal {
+  margin-bottom: 20px;
+}
+
+#image-preview-modal > img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.static-data > .file-info-list {
+  margin: 0 0 15px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.static-data > .file-info-list:last-child {
+  margin: 0;
+}
+
+.svg-container {
+  background-color: #111;
+}
+
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+  display: none;
+}
+
+body
+{
+  font-family: Roboto, sans-serif;
+  color: #0f3c4b;
+  background-color: #e5edf1;
+  padding: 5rem 1.25rem; /* 80 20 */
+}
+
+.container
+{
+  width: 100%;
+  max-width: 1000px; /* 800 */
+  text-align: center;
+  margin: 0 auto;
+}
+
+.container h1
+{
+  font-size: 42px;
+  font-weight: 300;
+  color: #0f3c4b;
+  margin-bottom: 40px;
+}
+.container h1 a:hover,
+.container h1 a:focus
+{
+  color: #39bfd3;
+}
+
+.container nav
+{
+  margin-bottom: 40px;
+}
+.container nav a
+{
+  border-bottom: 2px solid #c8dadf;
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 0 5px;
+}
+.container nav a.is-selected
+{
+  font-weight: 700;
+  color: #39bfd3;
+  border-bottom-color: currentColor;
+}
+.container nav a:not( .is-selected ):hover,
+.container nav a:not( .is-selected ):focus
+{
+  border-bottom-color: #0f3c4b;
+}
+
+.container footer
+{
+  color: #92b0b3;
+  margin-top: 40px;
+}
+.container footer p + p
+{
+  margin-top: 1em;
+}
+.container footer a:hover,
+.container footer a:focus
+{
+  color: #39bfd3;
+}
+
+.box
+{
+  font-size: 1.25rem; /* 20 */
+  background-color: #c8dadf;
+  position: relative;
+  padding: 100px 20px;
+}
+.box.has-advanced-upload
+{
+  outline: 2px dashed #92b0b3;
+  outline-offset: -10px;
+
+  -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+  transition: outline-offset .15s ease-in-out, background-color .15s linear;
+}
+.box.is-dragover
+{
+  outline-offset: -20px;
+  outline-color: #c8dadf;
+  background-color: #fff;
+}
+.box__dragndrop,
+.box__icon
+{
+  display: none;
+}
+.box.has-advanced-upload .box__dragndrop
+{
+  display: inline;
+}
+.box.has-advanced-upload .box__icon
+{
+  width: 100%;
+  height: 80px;
+  fill: #92b0b3;
+  display: block;
+  margin-bottom: 40px;
+}
+
+.box.is-uploading .box__input,
+.box.is-success .box__input,
+.box.is-error .box__input
+{
+  visibility: hidden;
+}
+
+.box__uploading,
+.box__success,
+.box__error
+{
+  display: none;
+}
+.box.is-uploading .box__uploading,
+.box.is-success .box__success,
+.box.is-error .box__error
+{
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+
+  -webkit-transform: translateY( -50% );
+  transform: translateY( -50% );
+}
+.box__uploading
+{
+  font-style: italic;
+}
+.box__success
+{
+  -webkit-animation: appear-from-inside .25s ease-in-out;
+  animation: appear-from-inside .25s ease-in-out;
+}
+@-webkit-keyframes appear-from-inside
+{
+  from	{ -webkit-transform: translateY( -50% ) scale( 0 ); }
+  75%		{ -webkit-transform: translateY( -50% ) scale( 1.1 ); }
+  to		{ -webkit-transform: translateY( -50% ) scale( 1 ); }
+}
+@keyframes appear-from-inside
+{
+  from	{ transform: translateY( -50% ) scale( 0 ); }
+  75%		{ transform: translateY( -50% ) scale( 1.1 ); }
+  to		{ transform: translateY( -50% ) scale( 1 ); }
+}
+
+.box__restart
+{
+  font-weight: 700;
+}
+.box__restart:focus,
+.box__restart:hover
+{
+  color: #39bfd3;
+}
+
+.js .box__file
+{
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.js .box__file + label
+{
+  max-width: 80%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+}
+.js .box__file + label:hover strong,
+.box__file:focus + label strong,
+.box__file.has-focus + label strong
+{
+  color: #39bfd3;
+}
+.js .box__file:focus + label,
+.js .box__file.has-focus + label
+{
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
+.js .box__file + label *
+{
+  /* pointer-events: none; */ /* in case of FastClick lib use */
+}
+
+.no-js .box__file + label
+{
+  display: none;
+}
+
+.no-js .box__button
+{
+  display: block;
+}
+.box__button
+{
+  font-weight: 700;
+  color: #e5edf1;
+  background-color: #39bfd3;
+  display: none;
+  padding: 8px 16px;
+  margin: 40px auto 0;
+}
+.box__button:hover,
+.box__button:focus
+{
+  background-color: #0f3c4b;
+}
+

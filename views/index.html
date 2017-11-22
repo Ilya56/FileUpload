@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Galery</title>
+    <script src="https://use.fontawesome.com/2d4e9228e5.js"></script>
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <h1>File manager</h1>
+    <div id="file-manager"></div>
+    <input id="myCoolJSON" type="hidden">
+    <input id="myGalleryPreview" type="hidden" value="https://images.unsplash.com/photo-1446645681877-acde17e336a9?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=846&q=80&cs=tinysrgb">
+</div>
+<script src="js/galery.js"></script>
+<script>
+    const fileManager = new FileManager({
+        displayId: 'file-manager',
+        viewType: 'images',
+        upload: 'upload',
+        acceptedFiles:['png', 'exe'],
+        files: {
+            dataListener: 'inputId',
+            data: '[{"id":0,"url":"https://images.unsplash.com/photo-1446645681877-acde17e336a9?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=846&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"},{"id":1,"url":"https://images.unsplash.com/photo-1432139509613-5c4255815697?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=2265&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"},{"id":2,"url":"https://images.unsplash.com/photo-1432139509613-5c4255815697?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=2265&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"}]'
+        },
+        images: {
+            dataListener: 'myCoolJSON',
+            data: '[{"id":0,"url":"https://images.unsplash.com/photo-1446645681877-acde17e336a9?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=846&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"},{"id":1,"url":"https://images.unsplash.com/photo-1432139509613-5c4255815697?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=2265&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"},{"id":2,"url":"https://images.unsplash.com/photo-1432139509613-5c4255815697?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=2265&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"}]',
+            previewListener: 'myGalleryPreview',
+        }
+    });
+</script>
+</body>
+</html>
