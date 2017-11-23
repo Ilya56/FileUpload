@@ -222,7 +222,8 @@ class FileManager {
     }
 
     loadFiles(type) {
-        $('#' + this.dataInput)[0].value = this.dataJSON;
+        //$('#' + this.dataInput)[0].value = this.dataJSON;
+        this.dataJSON = $('#' + this.dataInput)[0].value;
         if (type === 'images') {
             this.files = JSON.parse(this.dataJSON);
             const prim = $('#' + this.preview)[0].value;

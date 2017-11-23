@@ -18,7 +18,7 @@
 <body>
 <h1>File manager</h1>
 <div id="container"></div>
-<input id="myCoolJSON" type="hidden">
+<input id="myCoolJSON" type="hidden" value='[{"id":0,"url":"https://images.unsplash.com/photo-1446645681877-acde17e336a9?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=846&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"},{"id":1,"url":"https://images.unsplash.com/photo-1432139509613-5c4255815697?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=2265&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"},{"id":2,"url":"https://images.unsplash.com/photo-1432139509613-5c4255815697?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=2265&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"}]'>
 <input id="myGalleryPreview" type="hidden" value="https://images.unsplash.com/photo-1446645681877-acde17e336a9?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=846&q=80&cs=tinysrgb">
 <script src="js/galery.js"></script>
 <script>
@@ -33,7 +33,7 @@
         },
         images: {
             dataListener: 'myCoolJSON',
-            data: '[{"id":0,"url":"https://images.unsplash.com/photo-1446645681877-acde17e336a9?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=846&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"},{"id":1,"url":"https://images.unsplash.com/photo-1432139509613-5c4255815697?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=2265&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"},{"id":2,"url":"https://images.unsplash.com/photo-1432139509613-5c4255815697?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=2265&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"}]',
+            //data: '[{"id":0,"url":"https://images.unsplash.com/photo-1446645681877-acde17e336a9?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=846&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"},{"id":1,"url":"https://images.unsplash.com/photo-1432139509613-5c4255815697?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=2265&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"},{"id":2,"url":"https://images.unsplash.com/photo-1432139509613-5c4255815697?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=2265&q=80&cs=tinysrgb","title":"TITLE","description":"111","credits":"c","year":"2017"}]',
             previewListener: "myGalleryPreview"
         }
     });
