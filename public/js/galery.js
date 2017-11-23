@@ -196,21 +196,22 @@ class FileManager {
             $('.label-start').remove();
             $('.dz-preview').remove();
 
-            if (res.success_) {
-                if (type === 'images') {
-                    this_.addElementImage(res.toAdd, false, type);
-                    this_.files.push(res.toAdd);
-                }
-                if (type === 'image') {
-                    this_.replaceElement(res.toAdd, false, type);
-                    this_.files = res.toAdd.url;
-                }
-                if (type === 'files') {
-                    this_.addElementFile(res.toAdd, type);
-                    this_.files.push(res.toAdd);
-                }
-                this_.sendData(this_.dataInput, this_.files);
+            if (type === 'images') {
+                const img = new Image(this_.files.length, res.url_, '', '' ,'', '');
+                this_.addElementImage(img, false, type);
+                this_.files.push(img);
             }
+            if (type === 'image') {
+                const img = new Image(this_.files.length, res.url_, '', '' ,'', '');
+                this_.replaceElement(img, false, type);
+                this_.files = img;
+            }
+            if (type === 'files') {
+                const file = new File(this_.files.length, res.url_);
+                this_.addElementFile(file, type);
+                this_.files.push(file);
+            }
+            this_.sendData(this_.dataInput, this_.files);
         });
         mdz.on('error', function () {
             $('.dz-success-mark').remove();

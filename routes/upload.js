@@ -27,11 +27,7 @@ exports.post = function (req, res) {
         //let f = new File(id++, path);
         let img = new Image(images.id, path, '', '', '', '');
 
-        res.json({
-            success_: true,
-            error_: 0,
-            text_: "Done!",
-            toAdd: img});
+        res.json({url_: path});
 
         /*let img = new Image(images.id, path, '', '', '', '');
         images.images.push(img.toJSON());
