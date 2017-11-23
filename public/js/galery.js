@@ -28,6 +28,22 @@ class Image{
     }
 }
 
+class File {
+    constructor(id, url) {
+        this.id = id;
+        this.url = url;
+        this.type = url.substring(url.lastIndexOf(".") + 1, url.length);
+    }
+
+    toJSON() {
+        return {
+            id: this.id,
+            url: this.url,
+            type: this.type
+        }
+    }
+}
+
 class FileManager {
     constructor(params) {
         this.uploadAction = params.upload;
@@ -40,35 +56,45 @@ class FileManager {
         this.viewType = params.viewType;
         const viewType = this.viewType;
         if (viewType === 'images') {
-            this.dataJSON = params.images.dataListener;
+            this.dataInput = params.images.dataListener;
             this.preview = params.images.previewListener;
-            this.imagesJSON = params.images.data;
+            this.dataJSON = params.images.data;
             this.modalId = 'file-modal-' + params.displayId;
         }
         if (viewType === 'image') {
-            this.dataJSON = params.image.previewListener;
-            this.imagesJSON = params.image.data;
+            this.dataInput = params.image.previewListener;
+            this.dataJSON = params.image.data;
+        }
+        if (viewType === 'files') {
+            this.dataJSON = params.files.data;
+            this.dataInput = params.files.dataListener;
         }
 
         this.prevIndex = 0;
         this.ids = [];
-        this.images = [];
+        this.files = [];
 
         this.init(viewType);
     }
 
     init(type) {
+        const elem = '<div id="file-manager"></div>';
+        const temp = document.createElement('div');
+        temp.innerHTML = elem;
+        $(this.manager)[0].appendChild(temp.firstChild);
+
         $('[data-toggle="tooltip"]').tooltip();
-        let imageColumns = Math.round($(this.manager).width() / 145);
+        let imageColumns = Math.round($("#file-manager").width() / 145);
         if (type === 'image')
             imageColumns = 2;
-        $(this.manager).attr('data-image-columns', imageColumns);
+        $("#file-manager").attr('data-image-columns', imageColumns);
+
         if (type === 'images')
             this.addModalDialog();
         this.addForm();
         this.dropzoneInit(type);
         this.loadFiles(type);
-        if (type === 'images')
+        if (type[type.length - 1] === 's')
             this.makeSortable();
     }
 
@@ -150,7 +176,7 @@ class FileManager {
 
         const temp = document.createElement('div');
         temp.innerHTML = elem;
-        $('.container')[0].appendChild(temp.firstChild);
+        $(this.manager)[0].appendChild(temp.firstChild);
     }
 
     dropzoneInit(type) {
@@ -172,14 +198,18 @@ class FileManager {
 
             if (res.success_) {
                 if (type === 'images') {
-                    this_.addElement(res.toAdd);
-                    this_.images.push(res.toAdd);
+                    this_.addElementImage(res.toAdd, false, type);
+                    this_.files.push(res.toAdd);
                 }
                 if (type === 'image') {
-                    this_.replaceElement(res.toAdd);
-                    this_.images = res.toAdd.url;
+                    this_.replaceElement(res.toAdd, false, type);
+                    this_.files = res.toAdd.url;
                 }
-                this_.sendData(this_.dataJSON, this_.images);
+                if (type === 'files') {
+                    this_.addElementFile(res.toAdd, type);
+                    this_.files.push(res.toAdd);
+                }
+                this_.sendData(this_.dataInput, this_.files);
             }
         });
         mdz.on('error', function () {
@@ -192,21 +222,29 @@ class FileManager {
     }
 
     loadFiles(type) {
-        $('#' + this.dataJSON)[0].value = this.imagesJSON;
+        $('#' + this.dataInput)[0].value = this.dataJSON;
         if (type === 'images') {
-            this.images = JSON.parse(this.imagesJSON);
+            this.files = JSON.parse(this.dataJSON);
             const prim = $('#' + this.preview)[0].value;
 
-            for (let i in this.images) {
+            for (let i in this.files) {
                 let t = false;
-                if (this.images[i].url === prim)
+                if (this.files[i].url === prim)
                     t = true;
-                this.addElement(this.images[i], t, type);
+                this.addElementImage(this.files[i], t, type);
             }
         }
         if (type === 'image') {
-            this.images = new Image(0, this.imagesJSON, '', '', '', '');
-            this.addElement(this.images, false, type);
+            this.files = new Image(0, this.dataJSON, '', '', '', '');
+            this.addElementImage(this.files, false, type);
+        }
+        
+        if (type === 'files') {
+            console.log(JSON.parse(this.dataJSON));
+            this.files = JSON.parse(this.dataJSON);
+            for (let i in this.files) {
+                this.addElementFile(this.files[i], type);
+            }
         }
 
         $('.image-container').each(function () {
@@ -219,19 +257,19 @@ class FileManager {
             }
         });
 
-        for (let i = 0; i < this.images.length; i++)
-            this.ids.push(this.images[i].id);
+        for (let i = 0; i < this.files.length; i++)
+            this.ids.push(this.files[i].id);
 
-        this.setListener();
+        this.setListener(type);
     }
 
     makeSortable() {
         const this_ = this;
-        $(this.manager).sortable({
+        $("#file-manager").sortable({
             handle: '.fa-arrows',
             helper: 'clone',
-            items: '> .image-container',
-            placeholder: 'image-container image-placeholder',
+            items: '> .file-container',
+            placeholder: 'file-container image-placeholder',
             tolerance: 'pointer',
             start: function(event, ui) {
                 ui.placeholder.height(ui.item.height());
@@ -258,30 +296,47 @@ class FileManager {
                     }
                     console.log(ids);
 
-                    let newImgs = new Array(this_.images.length);
+                    let newImgs = new Array(this_.files.length);
                     for(let i = 0; i < ids.length; i++)
-                        for(let j = 0; j < this_.images.length; j++)
-                            if (this_.images[j].id === ids[i])
-                                newImgs[i] = this_.images[j];
+                        for(let j = 0; j < this_.files.length; j++)
+                            if (this_.files[j].id === ids[i])
+                                newImgs[i] = this_.files[j];
 
-                    this_.sendData(this_.dataJSON, newImgs);
+                    this_.sendData(this_.dataInput, newImgs);
                 }
             }
         });
     }
 
-    setListener() {
+    setListener(type) {
         const this_ = this;
-        $('.on-image-controls > .fa-check').click(function() {
-            $('.image-container').removeClass('picked-as-primary');
-            $(this).parents('.image-container').addClass('picked-as-primary');
-            const url = $(this).parents('.image-container')[0].children[0].children[1].children[0].src;
+        $('.on-file-controls > .fa-times').click(function() {
+            $(this).parents('.file-container').remove();
+            let url;
+            console.log($(this).parents('.file-container')[0].children[0].children[1].children[0].getAttribute("url"));
+            if (type === 'images' || type === 'image')
+                url = $(this).parents('.file-container')[0].children[0].children[1].children[0].src;
+            else
+                url = $(this).parents('.file-container')[0].children[0].children[1].children[0].getAttribute("url");
+            for(let i = 0; i < this_.files.length; i++) {
+                const j = this_.files[i];
+                if (j.url === url) {
+                    this_.files.splice(j, 1);
+                }
+            }
+            this_.sendData(this_.dataInput, this_.files);
+        });
+
+        $('.on-file-controls > .fa-check').click(function() {
+            $('.file-container').removeClass('picked-as-primary');
+            $(this).parents('.file-container').addClass('picked-as-primary');
+            const url = $(this).parents('.file-container')[0].children[0].children[1].children[0].src;
             console.log(url.substr(url.indexOf('/', 8), url.length));
             this_.sendData(this_.preview, url.substr(url.indexOf('/', 8), url.length));
         });
 
-        $('.on-image-controls > .fa-info-circle').click(function() {
-            const image = $(this).parents('.image-container').find('img');
+        $('.on-file-controls > .fa-info-circle').click(function() {
+            const image = $(this).parents('.file-container').find('img');
             const path = image.attr('src');
             let filename = path.replace(/\\/g, '/');
             filename = filename.substring(filename.lastIndexOf('/')+ 1).replace(/[?#].+$/, '');
@@ -292,7 +347,6 @@ class FileManager {
             const credits = image.attr('credits');
             const id = image.attr('id');
 
-            console.log('2');
             const xhr = new XMLHttpRequest();
             xhr.open("GET", path, true);
             xhr.responseType = "arraybuffer";
@@ -320,7 +374,6 @@ class FileManager {
             $('.dynamic-data #full-image-link').attr('href', path);
             $('.dynamic-data #year').val(year);
             $('.dynamic-data #credits').val(credits);
-            console.log('4');
 
             let clicked = false;
             $('.save-changes').click(function () {
@@ -336,8 +389,8 @@ class FileManager {
                     image.attr('year', year);
                     image.attr('credits', credits);
 
-                    for(let i = 0; i < this_.images.length; i++) {
-                        const j = this_.images[i];
+                    for(let i = 0; i < this_.files.length; i++) {
+                        const j = this_.files[i];
                         if (j.id.toString() === id) {
                             j.title = title;
                             j.desc = desc;
@@ -346,7 +399,7 @@ class FileManager {
                         }
                     }
 
-                    this_.sendData(this_.dataJSON, this_.images);
+                    this_.sendData(this_.dataInput, this_.files);
                 }
             });
             console.log('5');
@@ -354,26 +407,13 @@ class FileManager {
             $('#' + this_.modalId).modal('show');
             console.log('6');
         });
-
-        $('.on-image-controls > .fa-times').click(function() {
-            $(this_).parents('.image-container').remove();
-            const url = $(this).parents('.image-container')[0].children[0].children[1].children[0].src;
-            for(let i = 0; i < this.images.length; i++) {
-                const j = this.images[i];
-                if (j.url === url) {
-                    this_.images.splice(j, 1);
-                }
-            }
-            this_.sendData(this_.dataJSON, this_.images);
-        });
     }
 
-    addElement(img, prim, type) {
-        let elem = "<div class=\"image-container" + (prim ? ' picked-as-primary' : '') + "\">\n" +
-            "<div class=\"inner-image-container\">\n";
+    addElementImage(img, prim, type) {
+        let elem = "<div class=\"file-container" + (prim ? ' picked-as-primary' : '') + "\">\n" +
+            "<div class=\"inner-file-container\">\n";
 
-        elem += (type === 'images') ? "  <div class=\"on-image-controls\">\n" +
-            "    <div class=\"delete-confirm\">Confirm deleting!</div>\n" +
+        elem += (type === 'images') ? "  <div class=\"on-file-controls\">\n" +
             "      <span class=\"fa fa-arrows\"></span>\n" +
             "      <span class=\"fa fa-check\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Pick as primary\"></span>\n" +
             "      <span class=\"fa fa-info-circle\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Image info\"></span>\n" +
@@ -389,9 +429,31 @@ class FileManager {
 
         const temp = document.createElement('div');
         temp.innerHTML = elem;
-        $(this.manager)[0].appendChild(temp.firstChild);
+        $("#file-manager")[0].appendChild(temp.firstChild);
 
-        this.setListener();
+        this.setListener(type);
+    }
+    
+    addElementFile(file, type) {
+        let elem = "<div class=\"file-container\">\n" +
+            "<div class=\"inner-file-container\">\n";
+
+        elem += (type === 'files') ? "  <div class=\"on-file-controls\">\n" +
+            "      <span class=\"fa fa-arrows\"></span>\n" +
+            "      <span class=\"fa fa-times\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete file\"></span>\n" +
+            "    </div>\n": '';
+
+        elem += "    <div class=\"center-container\">\n" +
+            "      <div class='fileupload-icon fileupload-" + file.type + "' url='" + file.url + "'></div>\n" +
+            "    </div>\n" +
+            "  </div>\n" +
+            "</div>";
+
+        const temp = document.createElement('div');
+        temp.innerHTML = elem;
+        $("#file-manager")[0].appendChild(temp.firstChild);
+
+        this.setListener(type);
     }
 
     replaceElement(img) {
@@ -405,8 +467,8 @@ class FileManager {
 
         const temp = document.createElement('div');
         temp.innerHTML = elem;
-        console.log($(this.manager)[0].children);
-        $(this.manager)[0].children[0].replaceWith(temp.firstChild);
+        console.log($("#file-manager")[0].children);
+        $("#file-manager")[0].children[0].replaceWith(temp.firstChild);
 
         $('.image-container').each(function () {
             if ($(this).find('img').width() > $(this).find('img').height()) {

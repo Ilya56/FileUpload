@@ -52,3 +52,19 @@ app.use(function(err, req, res, next) {
 
 //EXPORT
 module.exports = app;
+
+class File {
+    constructor(id, url) {
+        this.id = id;
+        this.url = url;
+        this.type = url.substring(url.lastIndexOf("."), url.length);
+    }
+
+    toJSON() {
+        return {
+            id: this.id,
+            url: this.url,
+            type: this.type
+        }
+    }
+}

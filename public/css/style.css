@@ -31,45 +31,48 @@ h1:after {
   white-space: nowrap;
 }
 
-#file-manager > .image-container {
+#file-manager > .file-container {
   display: inline-block;
   margin: 0 -1.8px;
   padding: 8px;
   vertical-align: top;
 }
 
-#file-manager > .image-container.image-placeholder {
+#file-manager > .file-container.image-placeholder {
   padding: 8px;
 }
 
-#file-manager[data-image-columns="1"] > .image-container { width: 100%; }
-#file-manager[data-image-columns="2"] > .image-container { width: 50%; }
-#file-manager[data-image-columns="3"] > .image-container { width: 33.3333333%; }
-#file-manager[data-image-columns="4"] > .image-container { width: 25%; }
-#file-manager[data-image-columns="5"] > .image-container { width: 20%; }
-#file-manager[data-image-columns="6"] > .image-container { width: 16.6666665%; }
-#file-manager[data-image-columns="7"] > .image-container { width: 14.2857143%; }
-#file-manager[data-image-columns="8"] > .image-container { width: 12.5%; }
-#file-manager[data-image-columns="9"] > .image-container { width: 11.1111111%; }
-#file-manager[data-image-columns="10"] > .image-container { width: 10%; }
-#file-manager[data-image-columns="11"] > .image-container { width: 9.09090909%; }
-#file-manager[data-image-columns="12"] > .image-container { width: 8.33333333%; }
-#file-manager[data-image-columns="13"] > .image-container { width: 7.69230769%; }
-#file-manager[data-image-columns="14"] > .image-container { width: 7.14285714%; }
-#file-manager[data-image-columns="15"] > .image-container { width: 6.66666666%; }
+#file-manager > .file-container {
+  width: 8%;
+}
+
+/*#file-manager[data-image-columns="1"] > .file-container { width: 100%; }
+#file-manager[data-image-columns="2"] > .file-container { width: 50%; }
+#file-manager[data-image-columns="3"] > .file-container { width: 33.3333333%; }
+#file-manager[data-image-columns="4"] > .file-container { width: 25%; }
+#file-manager[data-image-columns="5"] > .file-container { width: 20%; }
+#file-manager[data-image-columns="6"] > .file-container { width: 16.6666665%; }
+#file-manager[data-image-columns="7"] > .file-container { width: 14.2857143%; }
+#file-manager[data-image-columns="8"] > .file-container { width: 12.5%; }
+#file-manager[data-image-columns="9"] > .file-container { width: 11.1111111%; }
+#file-manager[data-image-columns="10"] > .file-container { width: 10%; }
+#file-manager[data-image-columns="11"] > .file-container { width: 9.09090909%; }
+#file-manager[data-image-columns="12"] > .file-container { width: 8.33333333%; }
+#file-manager[data-image-columns="13"] > .file-container { width: 7.69230769%; }
+#file-manager[data-image-columns="14"] > .file-container { width: 7.14285714%; }
+#file-manager[data-image-columns="15"] > .file-container { width: 6.66666666%; }*/
 
 #file-manager > .image-placeholder > .inner-placeholder {
   border: dashed 1px #333;
 }
 
-#file-manager > .image-container > .inner-image-container:before, #file-manager > .image-placeholder > .inner-placeholder:before {
+#file-manager > .file-container > .inner-file-container:before, #file-manager > .image-placeholder > .inner-placeholder:before {
   content: '';
   display: block;
   padding-top: 100%;
-
 }
 
-#file-manager > .image-container > .inner-image-container {
+#file-manager > .file-container > .inner-file-container {
   position: relative;
   background-color: #fff;
   -webkit-box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
@@ -78,7 +81,7 @@ h1:after {
   max-width: 800px;
 }
 
-#file-manager > .image-container > .inner-image-container > .on-image-controls {
+#file-manager > .file-container > .inner-file-container > .on-file-controls {
   position: absolute;
   top: 1px;
   right: 1px;
@@ -93,7 +96,7 @@ h1:after {
   visibility: hidden;
 }
 
-#file-manager > .image-container > .inner-image-container:hover > .on-image-controls {
+#file-manager > .file-container > .inner-file-container:hover > .on-file-controls {
   opacity: 1;
   visibility: visible;
   -webkit-transition: all .3s ease;
@@ -103,7 +106,7 @@ h1:after {
   transition: all .3s ease;
 }
 
-#file-manager > .image-container > .inner-image-container > .on-image-controls > .delete-confirm {
+#file-manager > .file-container > .inner-file-container > .on-file-controls > .delete-confirm {
   position: absolute;
   top: 0;
   right: 0;
@@ -120,36 +123,36 @@ h1:after {
   -o-transition: all .3s ease;
   transition: all .3s ease;
 }
-#file-manager > .image-container > .inner-image-container > .on-image-controls > .delete-confirm.active {
+#file-manager > .file-container > .inner-file-container > .on-file-controls > .delete-confirm.active {
   width: 100%;
 }
 
-#file-manager > .image-container > .inner-image-container > .on-image-controls > .fa {
+#file-manager > .file-container > .inner-file-container > .on-file-controls > .fa {
   cursor: pointer;
   margin: 0 5px;
 }
 
-#file-manager > .image-container > .inner-image-container > .on-image-controls > .fa-arrows {
+#file-manager > .file-container > .inner-file-container > .on-file-controls > .fa-arrows {
   cursor: move;
 }
 
-#file-manager > .image-container > .inner-image-container > .on-image-controls > .fa-check {
+#file-manager > .file-container > .inner-file-container > .on-file-controls > .fa-check {
   color: #2ecc71;
 }
 
-#file-manager > .image-container > .inner-image-container > .on-image-controls > .fa-info-circle {
+#file-manager > .file-container > .inner-file-container > .on-file-controls > .fa-info-circle {
   color: #3498db;
 }
 
-#file-manager > .image-container > .inner-image-container > .on-image-controls > .fa-times {
+#file-manager > .file-container > .inner-file-container > .on-file-controls > .fa-times {
   color: #c0392b;
 }
 
-#file-manager > .image-container.picked-as-primary > .inner-image-container > .on-image-controls > .fa-check {
+#file-manager > .file-container.picked-as-primary > .inner-file-container > .on-file-controls > .fa-check {
   display: none;
 }
 
-#file-manager > .image-container > .inner-image-container > .center-container {
+#file-manager > .file-container > .inner-file-container > .center-container {
   position: absolute;
   top: 1px;
   right: 1px;
@@ -158,7 +161,7 @@ h1:after {
   overflow: hidden;
 }
 
-#file-manager > .image-container.picked-as-primary > .inner-image-container > .center-container:after {
+#file-manager > .file-container.picked-as-primary > .inner-file-container > .center-container:after {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -172,7 +175,7 @@ h1:after {
   z-index: 3;
 }
 
-#file-manager > .image-container > .inner-image-container > .center-container > img {
+#file-manager > .file-container > .inner-file-container > .center-container > img {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -184,15 +187,27 @@ h1:after {
   z-index: 2;
 }
 
-#file-manager > .image-container.landscape > .inner-image-container > .center-container > img {
+#file-manager > .file-container > .inner-file-container > .center-container > .fileupload-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -o-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 2;
+}
+
+#file-manager > .file-container.landscape > .inner-file-container > .center-container > img {
   max-height: 100%;
 }
 
-#file-manager > .image-container.portrait > .inner-image-container> .center-container > img {
+#file-manager > .file-container.portrait > .inner-file-container> .center-container > img {
   max-width: 100%;
 }
 
-#file-manager > .image-container.square > .inner-image-container> .center-container > img {
+#file-manager > .file-container.square > .inner-file-container> .center-container > img {
   max-width: 100%;
   max-height: 100%;
 }
@@ -312,6 +327,7 @@ body
   background-color: #c8dadf;
   position: relative;
   padding: 100px 20px;
+  text-align: center;
 }
 .box.has-advanced-upload
 {
@@ -462,3 +478,19 @@ body
   background-color: #0f3c4b;
 }
 
+.fileupload-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.fileupload-png {
+  background-image: url('/icons/png.png');
+}
+
+.fileupload-html {
+  background-image: url('/icons/html.png');
+}
+
+.fileupload-png {
+  background-image: url('/icons/png.png');
+}
