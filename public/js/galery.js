@@ -186,7 +186,7 @@ class FileManager {
             multi = true;
         const mdz = new Dropzone('#' + this.dropzoneId, {
             acceptedFiles: this_.acceptedFiles,
-            maxFiles: multi ? 10 : 1
+            maxFiles: multi ? null : 1
         });
         mdz.on('success', function (file, res) {
             console.log(res);
@@ -225,27 +225,29 @@ class FileManager {
     loadFiles(type) {
         //$('#' + this.dataInput)[0].value = this.dataJSON;
         this.dataJSON = $('#' + this.dataInput)[0].value;
-        if (type === 'images') {
-            this.files = JSON.parse(this.dataJSON);
-            const prim = $('#' + this.preview)[0].value;
+        if (this.dataJSON) {
+            if (type === 'images') {
+                this.files = JSON.parse(this.dataJSON);
+                const prim = $('#' + this.preview)[0].value;
 
-            for (let i in this.files) {
-                let t = false;
-                if (this.files[i].url === prim)
-                    t = true;
-                this.addElementImage(this.files[i], t, type);
+                for (let i in this.files) {
+                    let t = false;
+                    if (this.files[i].url === prim)
+                        t = true;
+                    this.addElementImage(this.files[i], t, type);
+                }
             }
-        }
-        if (type === 'image') {
-            this.files = new Image(0, this.dataJSON, '', '', '', '');
-            this.addElementImage(this.files, false, type);
-        }
-        
-        if (type === 'files') {
-            console.log(JSON.parse(this.dataJSON));
-            this.files = JSON.parse(this.dataJSON);
-            for (let i in this.files) {
-                this.addElementFile(this.files[i], type);
+            if (type === 'image') {
+                this.files = new Image(0, this.dataJSON, '', '', '', '');
+                this.addElementImage(this.files, false, type);
+            }
+
+            if (type === 'files') {
+                console.log(JSON.parse(this.dataJSON));
+                this.files = JSON.parse(this.dataJSON);
+                for (let i in this.files) {
+                    this.addElementFile(this.files[i], type);
+                }
             }
         }
 
