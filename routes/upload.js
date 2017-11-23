@@ -24,13 +24,14 @@ exports.post = function (req, res) {
             return res.status(500).send(err);
         }
 
-        let f = new File(id++, path);
+        //let f = new File(id++, path);
+        let img = new Image(images.id, path, '', '', '', '');
 
         res.json({
             success_: true,
             error_: 0,
             text_: "Done!",
-            toAdd: f});
+            toAdd: img});
 
         /*let img = new Image(images.id, path, '', '', '', '');
         images.images.push(img.toJSON());

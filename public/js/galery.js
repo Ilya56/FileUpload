@@ -58,7 +58,7 @@ class FileManager {
         if (viewType === 'images') {
             this.dataInput = params.images.dataListener;
             this.preview = params.images.previewListener;
-            this.dataJSON = params.images.data;
+            this.dataJSON = (params.images.data) ? params.images.data : '[]';
             this.modalId = 'file-modal-' + params.displayId;
         }
         if (viewType === 'image') {
