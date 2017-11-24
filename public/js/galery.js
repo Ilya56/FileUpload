@@ -229,7 +229,8 @@ class FileManager {
         this.dataJSON = $('#' + this.dataInput)[0].value;
         if (this.dataJSON) {
             if (type === 'images') {
-                this.files = JSON.parse(this.dataJSON);
+                if (this.dataJSON)
+                    this.files = JSON.parse(this.dataJSON);
                 const prim = $('#' + this.preview)[0].value;
 
                 for (let i in this.files) {
