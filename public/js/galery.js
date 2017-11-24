@@ -211,6 +211,7 @@ class FileManager {
                 this_.addElementFile(file, type);
                 this_.files.push(file);
             }
+            this_.ids.push(this_.files.length - 1);
             this_.sendData(this_.dataInput, this_.files);
         });
         mdz.on('error', function () {
@@ -278,13 +279,12 @@ class FileManager {
             start: function(event, ui) {
                 ui.placeholder.height(ui.item.height());
                 ui.placeholder.html('<div class="inner-placeholder"></div>');
-                this.prevIndex = ui.item.index();
+                this_.prevIndex = ui.item.index();
             },
             stop: function (event, ui) {
                 const index = ui.item.index();
                 let ids = this_.ids;
-                console.log(this_.ids);
-                const prevIndex = this.prevIndex;
+                const prevIndex = this_.prevIndex;
                 console.log(ids);
 
                 if (index !== prevIndex) {
@@ -299,12 +299,14 @@ class FileManager {
                         ids[index] = temp;
                     }
                     console.log(ids);
+                    console.log(this_.files);
 
                     let newImgs = new Array(this_.files.length);
                     for(let i = 0; i < ids.length; i++)
                         for(let j = 0; j < this_.files.length; j++)
                             if (this_.files[j].id === ids[i])
                                 newImgs[i] = this_.files[j];
+                    console.log(newImgs);
 
                     this_.sendData(this_.dataInput, newImgs);
                 }
