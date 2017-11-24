@@ -198,17 +198,17 @@ class FileManager {
 
             if (type === 'images') {
                 console.log(this_.files);
-                const img = new Image(this_.files.length, res.img, '', '' ,'', '');
+                const img = new Image(this_.files.length, res.url, '', '' ,'', '');
                 this_.addElementImage(img, false, type);
                 this_.files.push(img);
             }
             if (type === 'image') {
-                const img = new Image(this_.files.length, res.img, '', '' ,'', '');
+                const img = new Image(this_.files.length, res.url, '', '' ,'', '');
                 this_.replaceElement(img, false, type);
                 this_.files = img;
             }
             if (type === 'files') {
-                const file = new File(this_.files.length, res.img);
+                const file = new File(this_.files.length, res.url);
                 this_.addElementFile(file, type);
                 this_.files.push(file);
             }
