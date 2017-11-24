@@ -197,6 +197,7 @@ class FileManager {
             $('.dz-preview').remove();
 
             if (type === 'images') {
+                console.log(this_.files);
                 const img = new Image(this_.files.length, res.url_, '', '' ,'', '');
                 this_.addElementImage(img, false, type);
                 this_.files.push(img);
